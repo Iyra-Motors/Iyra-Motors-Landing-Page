@@ -1,0 +1,70 @@
+{
+  "license": {
+    "name": "Unsplash License",
+    "url": "https://unsplash.com/license",
+    "summary": "Free use, including commercial use; attribution appreciated but not required. Do not sell unmodified images or compile a competing image service."
+  },
+  "verified_date": "2026-09-20",
+  "photos": [
+    {
+      "file": "hero-bmw-dark.jpg",
+      "role": "Sourced atmospheric hero alternative",
+      "vehicle": "BMW sedan, exact model unverified",
+      "photographer": "Dmitry Timofeew",
+      "source_page": "https://unsplash.com/photos/UU18rjWiQmo",
+      "image_url": "https://images.unsplash.com/photo-1563826773-1e2b4b2cde42?w=2000&h=1200&q=85&fm=jpg&fit=crop&crop=focalpoint&fp-x=0.5&fp-y=0.62",
+      "notes": "Front view with illuminated headlights; very dark. Does not meet requested three-quarter composition. Source portrait has been downloaded as a wide crop via Unsplash image service."
+    },
+    {
+      "file": "bmw-m5.jpg",
+      "role": "Sample inventory",
+      "vehicle": "BMW M5",
+      "photographer": "Jon Koop",
+      "source_page": "https://unsplash.com/photos/khYVyHiNZo0",
+      "image_url": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1600&q=85&fm=jpg&fit=crop",
+      "notes": "White M5, visual M5 grille badge. Landscape front three-quarter driving image."
+    },
+    {
+      "file": "mercedes-s-class.jpg",
+      "role": "Sample inventory; also viable right-side hero",
+      "vehicle": "Mercedes-Benz S-Class (W223)",
+      "photographer": "Martin Katler",
+      "source_page": "https://unsplash.com/photos/y3neNkE6efI",
+      "image_url": "https://images.unsplash.com/photo-1610099610040-ab19f3a5ec35?w=1600&h=1000&q=85&fm=jpg&fit=crop&crop=focalpoint&fp-x=0.5&fp-y=0.62",
+      "notes": "Black sedan; model is visual identification. Original mercedes.jpg retained. Crop focuses full vehicle."
+    },
+    {
+      "file": "toyota-corolla.jpg",
+      "role": "Sample inventory",
+      "vehicle": "Toyota Corolla sedan",
+      "photographer": "Bestami Sarıkaya",
+      "source_page": "https://unsplash.com/photos/5pLxPUtziIQ",
+      "image_url": "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=1600&h=1000&q=85&fm=jpg&fit=crop&crop=focalpoint&fp-x=0.5&fp-y=0.54",
+      "notes": "White sedan at night; model is visual identification. Original toyota-candidate-2.jpg retained."
+    },
+    {
+      "file": "range-rover.jpg",
+      "role": "Sample inventory",
+      "vehicle": "Land Rover Range Rover",
+      "photographer": "Michael Heuser",
+      "source_page": "https://unsplash.com/photos/wuEs2P8VLGA",
+      "image_url": "https://images.unsplash.com/photo-1549632891-a0bea6d0355b?w=1600&q=85&fm=jpg&fit=crop",
+      "notes": "Black Range Rover SUV front view in forest; visible Range Rover lettering."
+    },
+    {
+      "file": "bmw-m3-alternative.jpg",
+      "role": "Optional inventory alternative",
+      "vehicle": "BMW M3 (F80)",
+      "photographer": "Martin Katler",
+      "source_page": "https://unsplash.com/photos/94lAQc7ipNg",
+      "image_url": "https://images.unsplash.com/photo-1607853554439-0069ec0f29b6?w=1600&q=85&fm=jpg&fit=crop",
+      "notes": "Silver sedan in autumn woodland, portrait source with ample space around car."
+    }
+  ],
+  "unverified_candidate": {
+    "file": "hero-candidate.jpg",
+    "vehicle": "White Chevrolet Camaro ZL1",
+    "image_url": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=2000&q=85&fm=jpg&fit=crop",
+    "status": "Do not treat as cleared final asset: photographer and original Unsplash photo page unresolved. Strong right-hand hero composition."
+  }
+}
