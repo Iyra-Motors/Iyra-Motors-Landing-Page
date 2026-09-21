@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Iyra Motors · Cloudflare setup</title>
+<style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f1f5fa;color:#142437;font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:#081a2b;color:#fff;border-top:6px solid #339ff1;padding:40px max(24px,calc((100vw - 960px)/2))}header p{max-width:760px;color:#c2d7e9}h1{font-size:clamp(28px,4vw,40px);line-height:1.15;letter-spacing:-.03em;margin:10px 0 20px}header small{color:#6dc2ff;font-weight:700;letter-spacing:.15em}main{max-width:1008px;margin:28px auto;padding:0 24px 60px}section{background:white;border:1px solid #d5e1ee;border-radius:12px;padding:28px;margin:20px 0}h2{font-size:24px;line-height:1.3;margin:0 0 18px}h3{font-size:18px}a{color:#075c9a}li{margin:9px 0}code{background:#eaf1f8;border-radius:4px;padding:2px 6px;color:#084d78;font-size:.93em;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0d2033;color:#e3eef8;padding:20px;border-radius:8px;font-size:13px;line-height:1.55}pre code{background:transparent;color:inherit;padding:0;font-size:inherit}.note{border-left:4px solid #298ed5;background:#eaf5fd;padding:16px 20px}.muted{color:#51657b;font-size:14px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #dce5ef;padding:12px 10px}th{background:#eff5fb}button,.button{display:inline-block;border:0;background:#086eb8;color:#fff;border-radius:7px;padding:11px 17px;cursor:pointer;font:600 15px system-ui;text-decoration:none;margin:5px 8px 5px 0}button:hover,.button:hover{background:#07568e}button:focus-visible,a:focus-visible{outline:3px solid #d78b19;outline-offset:3px}summary{cursor:pointer;font-weight:650;padding:10px 0}.step{color:#087ac3;font-size:14px;text-transform:uppercase;letter-spacing:.08em;font-weight:750}input{font:15px ui-monospace,monospace;width:100%;padding:12px;border:1px solid #a8bbd0;border-radius:6px}.checklist{list-style:none;padding-left:0}.checklist li::before{content:"□";margin-right:10px;color:#087ac3}footer{color:#51657b;font-size:14px;padding:0 8px}#copy-status{min-height:24px;font-size:14px;color:#285b33}@media(max-width:600px){main{padding:0 12px 40px}section{padding:20px 16px}th,td{padding:10px 6px;font-size:14px}}@media print{body{background:#fff}header{background:#fff;color:#142437;border-top:3px solid #339ff1;padding:20px}header p{color:#142437}main{padding:0;margin:0}section{break-inside:avoid;border:0;border-bottom:1px solid #ccc;border-radius:0;margin:0;padding:20px}button,.button{display:none}details{display:block}pre{background:#f1f5fa;color:#142437}}
+</style></head><body><header><small>IYRA MOTORS · CLOUDFLARE PAGES</small><h1>Install your website and admin dashboard</h1><p>Use <strong>Iyra-Motors-Cloudflare-Pages.zip</strong> with Cloudflare Pages direct upload. It contains the compiled website, its images, and its admin server. You do not need to install Node.js or run a build.</p></header><main>
+<section><h2>Start here</h2><p>The ZIP is an upload package for <strong>Pages</strong>. The setup guide you previously received was not a deployable website. The WordPress theme ZIP is also a different product and cannot run as this Cloudflare application.</p><p>You need a Cloudflare account with Pages, D1, R2 and Zero Trust Access available; a domain managed through Cloudflare for the protected admin login; and the email address that should manage your dealership.</p><p class="note"><strong>Complete the account settings below before the full ZIP upload.</strong> The website intentionally shows setup guidance until the database, photo bucket and Access configuration are ready. Cloudflare may ask you to activate a service or choose a plan in your own account.</p><p class="muted">This is a custom React/Vinext website, with Cloudflare handling hosting, storage and login. It does not use WordPress or Dealer Inspire's proprietary software. This export starts with an empty dealership database; existing preview data is not copied automatically.</p></section>
+
+<section><div class="step">Step 1</div><h2>Open or create a Pages project</h2><p>If you already have a <strong>Pages direct-upload</strong> project, open it and continue to Step 2.</p><ol><li>In <a href="https://dash.cloudflare.com/">Cloudflare</a>, open <strong>Workers &amp; Pages → Create application</strong>, then choose the <strong>Pages</strong> option and <strong>Drag and drop / Upload assets</strong>.</li><li>For a new project, first extract the ZIP on your computer. Upload <strong>only the <code>index.html</code> file</strong> to create a temporary setup page. Name the project, then deploy it.</li><li>Open the new Pages project. You can now configure its runtime and resources before uploading the full site.</li></ol><p>Keep the original ZIP for Step 7. If your existing Pages project is connected to Git and does not offer a dashboard upload button, create a separate direct-upload Pages project for this package. <a href="https://developers.cloudflare.com/pages/get-started/direct-upload/">Cloudflare direct-upload documentation</a>.</p></section>
+
+<section><div class="step">Step 2</div><h2>Set the runtime compatibility</h2><p>In your Pages project's <strong>Settings</strong>, find <strong>Runtime / Compatibility date and flags</strong>. Select the <strong>Production</strong> environment and set:</p><div class="table-wrap"><table><thead><tr><th>Setting</th><th>Exact value</th></tr></thead><tbody><tr><td>Compatibility date</td><td><code>2026-05-15</code></td></tr><tr><td>Compatibility flag</td><td><code>nodejs_compat</code></td></tr></tbody></table></div><p>Save these settings <strong>before uploading the full ZIP</strong>. The compiled server imports Node.js APIs. These are the compatibility settings used for local verification. <a href="https://developers.cloudflare.com/workers/runtime-apis/nodejs/">Cloudflare Node.js compatibility</a>.</p></section>
+
+<section><div class="step">Step 3</div><h2>Create the database and photo bucket</h2><ol><li>Open Cloudflare's <strong>D1 SQL database</strong> section. Create a database named <code>iyra-motors-inventory</code>.</li><li>Open that database's <strong>Console</strong>. Expand the SQL below, copy it into the console and select <strong>Execute</strong>. It creates five tables and their indexes.</li><li>Open <strong>R2 Object Storage</strong>. Create a bucket named <code>iyra-motors-photos</code>. Keep public access disabled; the website serves published vehicle photos through its server.</li><li>Return to your <strong>Pages project → Settings → Bindings → Add</strong>. Add both bindings below.</li></ol><div class="table-wrap"><table><thead><tr><th>Binding type</th><th>Variable name — exact</th><th>Select this resource</th></tr></thead><tbody><tr><td>D1 database</td><td><code>DB</code></td><td><code>iyra-motors-inventory</code></td></tr><tr><td>R2 bucket</td><td><code>BUCKET</code></td><td><code>iyra-motors-photos</code></td></tr></tbody></table></div><p>If you already created resources for this same application, you may select those resources instead. Keep their existing data. The SQL below creates missing objects and does not drop tables; it is the initial schema, not a migration for an unrelated application.</p><details><summary>Show database setup SQL</summary><button type="button" data-copy="database-sql">Copy all SQL</button><button type="button" id="download-sql">Download SQL file</button><pre id="database-sql">CREATE TABLE IF NOT EXISTS `inquiries` (
+	`id` text PRIMARY KEY NOT NULL,
+	`kind` text NOT NULL,
+	`vehicle_id` text,
+	`vehicle_name` text,
+	`data` text NOT NULL,
+	`status` text DEFAULT 'new' NOT NULL,
+	`created_at` text NOT NULL,
+	`updated_at` text NOT NULL,
+	`updated_by` text
+);
+
+
+CREATE INDEX IF NOT EXISTS `inquiry_created` ON `inquiries` (`created_at`);
+
+CREATE INDEX IF NOT EXISTS `inquiry_status` ON `inquiries` (`status`);
+
+CREATE TABLE IF NOT EXISTS `photos` (
+	`id` text PRIMARY KEY NOT NULL,
+	`vehicle_id` text NOT NULL,
+	`object_key` text NOT NULL,
+	`content_type` text NOT NULL,
+	`size` integer NOT NULL,
+	`sort_order` integer NOT NULL,
+	`created_at` text NOT NULL,
+	FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles`(`id`) ON UPDATE no action ON DELETE no action
+);
+
+
+CREATE INDEX IF NOT EXISTS `photo_vehicle` ON `photos` (`vehicle_id`);
+
+CREATE TABLE IF NOT EXISTS `rate_limits` (
+	`key` text PRIMARY KEY NOT NULL,
+	`count` integer NOT NULL,
+	`expires` integer NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS `settings` (
+	`id` text PRIMARY KEY NOT NULL,
+	`data` text NOT NULL,
+	`version` integer NOT NULL,
+	`updated_at` text NOT NULL,
+	`updated_by` text NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS `vehicles` (
+	`id` text PRIMARY KEY NOT NULL,
+	`stock_number` text,
+	`vin` text,
+	`data` text NOT NULL,
+	`status` text NOT NULL,
+	`version` integer DEFAULT 1 NOT NULL,
+	`created_at` text NOT NULL,
+	`updated_at` text NOT NULL,
+	`created_by` text NOT NULL,
+	`updated_by` text NOT NULL
+);
+
+
+CREATE INDEX IF NOT EXISTS `vehicle_status` ON `vehicles` (`status`);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `vehicle_stock` ON `vehicles` (`stock_number`);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `vehicle_vin` ON `vehicles` (`vin`);
+</pre></details><p class="muted">References: <a href="https://developers.cloudflare.com/d1/get-started/">D1 dashboard and SQL console</a> · <a href="https://developers.cloudflare.com/pages/functions/bindings/">Pages database and R2 bindings</a>.</p></section>
+
+<section><div class="step">Step 4</div><h2>Attach the dealership domain</h2><p>In <strong>Pages project → Custom domains</strong>, add the domain or subdomain customers will use. Follow Cloudflare's DNS instructions and wait for it to show active. Use a domain in a Cloudflare DNS zone for the Access application in the next step.</p><p>Choose one exact address, such as <code>https://www.your-dealership-domain.com</code>. That example is a placeholder. Use <strong>your own active domain</strong> everywhere below. <a href="https://developers.cloudflare.com/pages/configuration/custom-domains/">Cloudflare custom-domain instructions</a>.</p></section>
+
+<section><div class="step">Step 5</div><h2>Configure the admin email login</h2><ol><li>Open <strong>Zero Trust</strong> in Cloudflare and finish team setup if this is your first time. Note your team domain, in the form <code>https://YOUR-TEAM.cloudflareaccess.com</code>.</li><li>For email login codes, open <strong>Integrations → Identity providers → Add new identity provider → One-time PIN</strong>. You may use an existing identity provider instead.</li><li>Under <strong>Access controls → Applications</strong>, add one <strong>Self-hosted</strong> public application named <strong>Iyra Motors Admin</strong>.</li><li>Use your active dealership hostname and cover the four paths listed below within this same application. The public homepage should remain outside the protected paths.</li><li>Add an <strong>Allow</strong> policy whose <strong>Include → Emails</strong> rule contains your administrator email address. Add any other approved staff explicitly. Choose your login method and save.</li><li>Copy this application's <strong>Application Audience (AUD) Tag</strong>, a 64-character value, for Step 6.</li></ol><div class="table-wrap"><table><thead><tr><th>Hostname</th><th>Path</th></tr></thead><tbody><tr><td>Your dealership hostname</td><td><code>/admin</code></td></tr><tr><td>The same hostname</td><td><code>/admin/*</code></td></tr><tr><td>The same hostname</td><td><code>/api/admin</code></td></tr><tr><td>The same hostname</td><td><code>/api/admin/*</code></td></tr></tbody></table></div><p>The base paths and descendants must be covered. Keep these paths in <strong>one Access application with one AUD tag</strong>. Leave <code>/</code>, <code>/api/inquiries</code> and <code>/media/*</code> outside Access; the server separately protects draft photos. Do not add an Everyone or Bypass policy to the admin application.</p><p class="muted">References: <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/self-hosted-public-app/">Self-hosted Access applications</a> · <a href="https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/one-time-pin/">Email one-time PIN setup</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/">Find the AUD tag</a>.</p></section>
+
+<section><div class="step">Step 6</div><h2>Add the website settings</h2><p>In your <strong>Pages project → Settings → Variables and Secrets</strong>, add these values to <strong>Production</strong>. Enter plain values, without surrounding quote marks. The variable names are case-sensitive.</p><div class="table-wrap"><table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td><code>AUTH_MODE</code></td><td><code>access</code></td></tr><tr><td><code>ADMIN_EMAILS</code></td><td>Your approved admin email. For multiple staff, separate their email addresses with commas.</td></tr><tr><td><code>ACCESS_TEAM_DOMAIN</code></td><td>Your full <code>https://YOUR-TEAM.cloudflareaccess.com</code> team URL, without a trailing slash.</td></tr><tr><td><code>ACCESS_AUD</code></td><td>The Access application's 64-character AUD tag.</td></tr><tr><td><code>PUBLIC_ORIGIN</code></td><td>Your exact active HTTPS dealership address, with no path or trailing slash.</td></tr><tr><td><code>RATE_LIMIT_SECRET</code></td><td>A random secret, generated below or in your password manager. Store this using Cloudflare's <strong>Secret / Encrypt</strong> option.</td></tr></tbody></table></div><p><code>RATE_LIMIT_SECRET</code> supports contact-form rate limiting. It is separate from your login. This guide can generate it locally in your browser; it makes no network requests.</p><button type="button" id="generate-secret">Generate a new random secret</button><button type="button" data-copy="generated-secret">Copy secret</button><input id="generated-secret" aria-label="Generated rate limit secret" readonly placeholder="Generate a secret, then paste it into Cloudflare"><p class="muted">Save the value in Cloudflare and your password manager. Do not send it in chat. You do not need an administrator password in the website code.</p><div id="copy-status" role="status" aria-live="polite"></div></section>
+
+<section><div class="step">Step 7</div><h2>Upload the complete ZIP</h2><ol><li>Open your <strong>Pages project → Create a new deployment</strong> and choose <strong>Production</strong>.</li><li>Upload the original <strong>Iyra-Motors-Cloudflare-Pages.zip</strong>. The upload root must contain <code>_worker.js</code>, <code>_routes.json</code>, <code>index.html</code>, <code>images/</code> and <code>_next/</code>. There must not be an extra enclosing folder.</li><li>Select <strong>Deploy</strong>. No build command or framework preset is needed for this compiled direct-upload package.</li><li>Open your custom domain. If a setup screen remains, complete the specific missing setting it identifies, then upload the same ZIP as a new production deployment.</li></ol><p>Cloudflare supports an advanced-mode <code>_worker.js</code> file inside a Pages dashboard upload. It runs the admin and database logic while Pages serves the images and scripts. <a href="https://developers.cloudflare.com/pages/get-started/direct-upload/">Direct upload support</a> · <a href="https://developers.cloudflare.com/pages/functions/advanced-mode/">Advanced-mode server format</a>.</p></section>
+
+<section><h2>Check the website once</h2><ul class="checklist"><li>Open your dealership domain and confirm the homepage and images load.</li><li>Open <code>https://YOUR-DOMAIN/admin</code>, enter the approved email and complete the Access login.</li><li>Create a draft car, save it and upload a photo. An incognito visitor should not see the draft.</li><li>Publish the car and refresh the public website. Confirm it appears.</li><li>Submit a test contact request and find it in the admin inbox.</li><li>Update your real business contact details and opening hours in the dashboard. Review demonstration vehicle content before advertising the site.</li></ul><p>Inventory, photos and dealership information are saved in D1/R2. Normal admin edits do not require another ZIP upload. This package was tested locally in Cloudflare's Workers runtime, including signed admin authentication, inventory publishing, image storage and inquiries. Your actual Cloudflare deployment and email login still need this live account check.</p></section>
+
+<section><h2>If something does not work</h2><div class="table-wrap"><table><thead><tr><th>What you see</th><th>What to check</th></tr></thead><tbody><tr><td>An import error mentioning <code>node:</code></td><td>Save the compatibility date and <code>nodejs_compat</code> flag in the production Pages runtime, then create a new deployment.</td></tr><tr><td>Only the temporary setup page</td><td>Upload the full ZIP to the Pages project and open the root URL, without <code>/index.html</code>. Confirm <code>_worker.js</code> is at the upload root.</td></tr><tr><td>“Your website files are installed”</td><td>The server started. Complete the named bindings or variables, initialize D1 if requested, and redeploy.</td></tr><tr><td>No upload button</td><td>Check that this is a Pages direct-upload project. A Git-connected Pages project uses a different deployment workflow.</td></tr><tr><td>No email login screen at <code>/admin</code></td><td>Use the custom hostname configured in Access. Check all four protected paths and your Access application policy.</td></tr><tr><td>Login succeeds but admin access is denied</td><td>Match the email in <code>ADMIN_EMAILS</code> to the signed-in identity. Confirm <code>ACCESS_TEAM_DOMAIN</code> and <code>ACCESS_AUD</code> belong to that same application; then redeploy.</td></tr><tr><td>Changes cannot be saved / origin rejected</td><td>Open the exact domain in <code>PUBLIC_ORIGIN</code>. If you switch domains, update that variable, the Pages domain and Access hostnames.</td></tr><tr><td>Deployment or runtime error persists</td><td>Keep the exact error text from the deployment log and the failed deployment URL. Share those details for diagnosis, without secrets or login codes.</td></tr></tbody></table></div></section>
+<footer>Prepared for the Iyra Motors Cloudflare Pages export · 21 September 2026. Keep the Pages project, database and R2 bucket when updating the website so existing inventory and inquiries remain available.</footer>
+</main><script>
+const statusLine = document.getElementById('copy-status');
+function announce(message) { statusLine.textContent = message; }
+async function copyText(text) {
+  if (!text) return announce('Generate the secret first.');
+  try { await navigator.clipboard.writeText(text); announce('Copied.'); }
+  catch { const field = document.createElement('textarea'); field.value = text; field.style.position = 'fixed'; field.style.left = '-9999px'; document.body.append(field); field.select(); const copied = document.execCommand('copy'); field.remove(); announce(copied ? 'Copied.' : 'Select and copy the text manually.'); }
+}
+document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', () => { const source = document.getElementById(button.dataset.copy); copyText(source.value === undefined ? source.textContent : source.value); }));
+document.getElementById('generate-secret').addEventListener('click', () => { const bytes = new Uint8Array(32); crypto.getRandomValues(bytes); document.getElementById('generated-secret').value = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join(''); announce('Generated locally. Copy this into RATE_LIMIT_SECRET in Cloudflare.'); });
+document.getElementById('download-sql').addEventListener('click', () => { const url = URL.createObjectURL(new Blob([document.getElementById('database-sql').textContent], {type:'text/plain'})); const link = document.createElement('a'); link.href = url; link.download = 'Iyra-Motors-Database.sql'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); });
+</script></body></html>
